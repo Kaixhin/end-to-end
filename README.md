@@ -2,9 +2,14 @@
 
 Presentation on paper.
 
-## Build
+## Setup
 
 Run `git submodule update --init` to fetch reveal.js.
 Change into its directory and use `npm install` to fetch its dependencies.
 Run `grunt --force` to build the reveal.js minimised files.
-Run `build.sh` to build the presentation.
+
+## Build
+
+Run `node watch.js` to build the presentation whenever it changes.
+
+Run `build.sh` to build the presentation manually.
