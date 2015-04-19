@@ -7,4 +7,4 @@ Presentation on paper.
 Run `git submodule update --init` to fetch reveal.js.
 Change into its directory and use `npm install` to fetch its dependencies.
 Run `grunt --force` to build the reveal.js minimised files.
-Run `pandoc -t revealjs --standalone --self-contained -s pres.md -o pres.html` to build the presentation.
+Run `build.sh` to build the presentation.
