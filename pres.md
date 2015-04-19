@@ -16,6 +16,7 @@ Kai Arulkumaran
 
 ## Reinforcement Learning
 
+- Learn through trial and error
 - Set of (agent/environment) states $S$, set of actions $A$
 - Action transitions $s_t$ to $s_{t+1}$ with reward $r_{t+1}$
 - Maximise expected return (sum of rewards) $R$ given policy $\pi$: $E[R|\pi]$
