@@ -23,13 +23,13 @@ Kai Arulkumaran
 - Set of states $X$ and set of actions $U$
 - Policy $\pi$ determines action $u_t$ to perform given the state $x_t$
 - Action transitions $x_t$ to $x_{t+1}$ with scalar reward $r_{t+1}$
-- Maximise expected return (sum of rewards) $R$ given policy: $$E[R|\pi]$$
+- Maximise expected return (sum of rewards) $R$ given policy: $$\mathbb E [R|\pi]$$
 
 ------------------
 
 ### Observability
 
-- Markov Chain (MC) is a random process with state transitions (alternatively a random walk on a graph), with the Markov property: $$P[x_{t+1}|x_t] = P[x_{t+1}|x_t,...,x_0]$$
+- Markov Chain (MC) is a random process with state transitions (alternatively a random walk on a graph), with the Markov property: $$\mathbb P [x_{t+1}|x_t] = \mathbb P [x_{t+1}|x_t,...,x_0]$$
 - Markov Decision Process (MDP) extends MC with actions and rewards
 - **Full observability**: observations ($O$) give entire state of environment = MDP
 - **Partial observability**: observations give incomplete state of environment = Partially Observable MDP (POMDP)
@@ -39,7 +39,7 @@ Kai Arulkumaran
 ### Policy Search
 
 - Parametrise the policy: $\pi_\theta(u_t|o_t)$
-- Optimise performance of policy with objective function: $l(x_t, u_t)$
+- Optimise performance of policy with objective function: $\mathcal l (x_t, u_t)$
 - Guided Policy Search
     1. Trajectory optimisation phase (fully observed)
     2. Supervised learning phase (partially observed)
