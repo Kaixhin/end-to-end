@@ -12,8 +12,9 @@ Kai Arulkumaran
 
 ### Summary
 
-- Policy search (reinforcement learning) to learn control for robot tasks
+- Policy search to learn control for robot tasks
 - Deep learning for learning features from low-level observations (joint angles + camera images) all the way to joint torques (no "computer vision system" or PD controller)
+- Relatively few samples/iterations
 
 ------------------
 
@@ -39,7 +40,7 @@ Kai Arulkumaran
 ### Policy Search
 
 - Parametrise the policy: $\pi_\theta(\mathbf{u}_t|\mathbf{o}_t)$
-- Optimise performance of policy with objective function: $\ell(\mathbf{x}_t, \mathbf{u}_t)$
+- Optimise performance of policy with objective function $\ell(\mathbf{x}_t, \mathbf{u}_t)$ e.g. distances between points, low torque
 - Guided Policy Search
     1. Trajectory optimisation phase (fully observed)
     2. Supervised learning phase (partially observed)
@@ -65,9 +66,9 @@ Kai Arulkumaran
 - Policy search minimises expected cost: $$\min_{p, \pi_\theta}\mathbb{E}_p[\ell(\tau)] \text{ s.t. } p(\mathbf{u}_t|\mathbf{x}_t) = \pi_\theta(\mathbf{u}_t|\mathbf{x}_t) \ \forall \mathbf{x}_t, \mathbf{u}_t, t$$ 
 - Recover $\pi_\theta(\mathbf{u}_t|\mathbf{x}_t) = \int\pi_\theta(\mathbf{u}_t|\mathbf{o}_t)p(\mathbf{o}_t|\mathbf{x}_t)d\mathbf{o}_t$, but instead evaluate integral with real samples
 - Solve by dual descent method; alternate:
-    a. Minimise Lagrangian w.r.t. primal variables
-    b. Increment Lagrangian multipliers by their subgradient
-- Part a: minimising w.r.t. $p(\tau)$ = trajectory optimisation, minimising w.r.t. $\theta$ = supervised learning
+    1. Minimise Lagrangian w.r.t. primal variables
+    2. Increment Lagrangian multipliers by their subgradient
+- Part 1: minimising w.r.t. $p(\tau)$ = trajectory optimisation, minimising w.r.t. $\theta$ = supervised learning
 
 ------------------
 
@@ -115,14 +116,49 @@ Kai Arulkumaran
 
 ### Architecture
 
-CNN used as function approximator for policy
-$\pi_\theta$ is a Gaussian with mean from a nonlinear function approximator
-Trained with objects in arm (full observability) but generalises to partial observability
+- Inputs are monocular RGB images plus angles and velocities of joints and end-effector
+- Convolutional Neural Network with Rectified Linear Units
+![Architecture](architecture.png)
+- No pooling which discards location information
+- Spatial softmax produces distribution over locations of *task-specific* visual features
+- Concatenate with robot configuration through Fully Connected ReLU layers to linear motor torque layer
+
+------------------
+
+### Training
+
+- Trajectory optimisation is fully observed, supervised learning is partial
+![Training](training.png)
+
+------------------
+
+### Initialisation
+
+- 1^st^ convolutional layer uses ImageNet-pretrained weights
+- Robot moves target object randomly to train pose regression CNN (coordinates from softmax)
+- Pretrain trajectories w/o optimising visuomotor policy
+- After initialisation fully connected layers trained first (not pretrained) to prevent convolutional layers losing features
+
+------------------
+
+### Features
+
+- Differ from pure object localisation
+![Features](features.png)
+
+------------------
+
+### Results
+
+- Baseline trains vision for pose prediction, then learns policy - standard modular approach
+- Vision does not provide enough precision
+- Just using features instead of predictions provides small improvement
+- End-to-end training outperforms both massively!
 
 ------------------
 
 ### Weaknesses
 
 - Large change in mass of target object
-- Large change in visuals of objects/environment
-- Pertubations that are too different from training
+- Large change in visuals of objects/environment: lighting, distractor objects and occlusions
+- Pertubations that move the trajectory far away from the training distribution
