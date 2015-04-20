@@ -1,12 +1,13 @@
 # End-to-End Training of Deep Visuomotor Policies
 
-Presentation on paper.
+Presentation on [End-to-End Training of Deep Visuomotor Policies](http://arxiv.org/abs/1504.00702).
+[Supplementary videos](https://sites.google.com/site/visuomotorpolicy/).
 
 ## Setup
 
 Run `git submodule update --init` to fetch reveal.js.
 Change into its directory and use `npm install` to fetch its dependencies.
-Run `grunt --force` to build the reveal.js minimised files.
+Run `grunt` to build the reveal.js minimised files.
 
 ## Build
 
