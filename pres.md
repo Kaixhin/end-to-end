@@ -106,7 +106,7 @@ Kai Arulkumaran
 ### Supervised Learning
 
 - Minimise KL-divergence between policy and trajectory distribution (labels)
-- Minimise expectation of $\lambda_{\mu t}$
+- Minimise Lagrange multiplier of expected action $\lambda_{\mu t}$
 - $$\frac{1}{2N}\sum_{n=1}^N\sum_{t=1}^T \mathbb{E}_{p_i(\mathbf{x}_t,\mathbf{o}_t)}[\mathbf{tr}[\mathbf{C}_{t_i}^{-1}\Sigma^\pi(\mathbf{o}_t)]-\log|\Sigma^\pi(\mathbf{o}_t)| + \\
 (\mu^\pi(\mathbf{o}_t) - \mu_{t_i}^p(\mathbf{x}_t))\mathbf{C}_{t_i}^{-1}(\mu^\pi(\mathbf{o}_t) - \mu_{t_i}^p(\mathbf{x}_t)) + 2\lambda_{\mu t}^T\mu^\pi(\mathbf{o}_t)]$$
 - Train with Stochastic Gradient Descent
@@ -120,7 +120,7 @@ Kai Arulkumaran
 - Convolutional Neural Network with Rectified Linear Units
 ![Architecture](architecture.png)
 - No pooling which discards location information
-- Spatial softmax produces distribution over locations of *task-specific* visual features
+- Spatial softmax $e^{a_{cij}}/\sum_{i'j'}e^{a_{ci'j'}}$ produces distribution over locations of *task-specific* visual features
 - Concatenate with robot configuration through Fully Connected ReLU layers to linear motor torque layer
 
 ------------------
